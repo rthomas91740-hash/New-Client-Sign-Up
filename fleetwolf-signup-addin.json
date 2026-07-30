@@ -1,0 +1,16 @@
+{
+  "name": "FleetWolf Client Forms",
+  "supportEmail": "you@fleetwolf.com",
+  "version": "1.0",
+  "items": [
+    {
+      "url": "https://rthomas91740-hash.github.io/New-Client-Sign-Up/",
+      "path": "ActivityLink",
+      "icon": "https://rthomas91740-hash.github.io/New-Client-Sign-Up/fleetwolf-icon.svg",
+      "menuName": {
+        "en": "Client Forms"
+      }
+    }
+  ],
+  "isSigned": false
+}
