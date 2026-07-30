@@ -1,448 +1,506 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>FleetWolf – Client Sign-Up</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FleetWolf – Client Forms</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0f2a3d;
+    --navy-deep:#0a1e2c;
+    --cyan:#17b6e8;
+    --steel:#6b7785;
+    --bg:#f2f5f7;
+    --card:#ffffff;
+    --line:#e3e8ec;
+    --ok:#1fa876;
+    --gold:#e0a02c;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:'Inter',Arial,sans-serif;
+    background:var(--bg);
+    color:var(--navy);
+    min-height:100vh;
+  }
+  .topbar{
+    background:var(--navy-deep);
+    padding:22px 24px 18px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+  .topbar img{height:44px;width:auto;}
+  .topbar p{color:#9fb3c0;font-size:0.85rem;margin-top:6px;}
 
-    body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: #f0f2f5;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 40px 16px 60px;
-    }
+  /* ── Tabs ── */
+  .tabs{
+    background:var(--navy);
+    display:flex;
+    justify-content:center;
+    position:relative;
+    overflow-x:auto;
+  }
+  .tab{
+    background:none;
+    border:none;
+    color:#b7c6d1;
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:600;
+    font-size:1rem;
+    letter-spacing:0.5px;
+    text-transform:uppercase;
+    padding:16px 22px;
+    cursor:pointer;
+    white-space:nowrap;
+    transition:color 0.2s;
+  }
+  .tab:hover{color:#fff;}
+  .tab.active{color:#fff;}
+  .tab-indicator{
+    position:absolute;
+    bottom:0;
+    height:4px;
+    background:repeating-linear-gradient(
+      90deg,
+      var(--cyan) 0 14px,
+      transparent 14px 22px
+    );
+    transition:left 0.35s cubic-bezier(.4,0,.2,1), width 0.35s cubic-bezier(.4,0,.2,1);
+  }
 
-    /* ── Header ── */
-    .header {
-      text-align: center;
-      margin-bottom: 32px;
-    }
-    .header .logo img {
-      height: 60px;
-      width: auto;
-    }
-    .header p {
-      color: #555;
-      margin-top: 6px;
-      font-size: 0.95rem;
-    }
+  main{
+    max-width:720px;
+    margin:0 auto;
+    padding:36px 16px 60px;
+  }
+  .panel{display:none;}
+  .panel.active{display:block;animation:fadeIn 0.25s ease;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
 
-    /* ── Card ── */
-    .card {
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 4px 30px rgba(0,0,0,0.10);
-      padding: 40px 44px;
-      width: 100%;
-      max-width: 680px;
-    }
+  .card{
+    background:var(--card);
+    border-radius:14px;
+    box-shadow:0 4px 24px rgba(15,42,61,0.08);
+    padding:32px 34px;
+  }
+  .panel-title{
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:1.6rem;
+    font-weight:700;
+    color:var(--navy);
+    margin-bottom:4px;
+  }
+  .panel-sub{color:var(--steel);font-size:0.9rem;margin-bottom:26px;}
 
-    .section-title {
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-      color: #e63946;
-      margin: 28px 0 14px;
-      padding-bottom: 6px;
-      border-bottom: 2px solid #f0f2f5;
-    }
-    .section-title:first-of-type { margin-top: 0; }
+  .section-title{
+    font-size:0.72rem;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:1.2px;
+    color:var(--cyan);
+    margin:24px 0 12px;
+    padding-bottom:6px;
+    border-bottom:2px solid var(--line);
+  }
+  .section-title:first-of-type{margin-top:0;}
 
-    /* ── Grid ── */
-    .row {
-      display: grid;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-    .row.col-2 { grid-template-columns: 1fr 1fr; }
-    .row.col-1 { grid-template-columns: 1fr; }
+  .row{display:grid;gap:16px;margin-bottom:16px;}
+  .row.col-2{grid-template-columns:1fr 1fr;}
+  .row.col-1{grid-template-columns:1fr;}
 
-    /* ── Field ── */
-    .field { display: flex; flex-direction: column; }
-    label {
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: #333;
-      margin-bottom: 5px;
-    }
-    label .req { color: #e63946; margin-left: 2px; }
+  .field{display:flex;flex-direction:column;}
+  label{font-size:0.82rem;font-weight:600;color:#333;margin-bottom:5px;}
+  label .req{color:var(--cyan);margin-left:2px;}
 
-    input, select, textarea {
-      border: 1.5px solid #dde1e7;
-      border-radius: 8px;
-      padding: 10px 13px;
-      font-size: 0.93rem;
-      color: #222;
-      background: #fafbfc;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      outline: none;
-      width: 100%;
-    }
-    input:focus, select:focus, textarea:focus {
-      border-color: #e63946;
-      box-shadow: 0 0 0 3px rgba(230,57,70,0.12);
-      background: #fff;
-    }
-    input::placeholder, textarea::placeholder { color: #aaa; }
+  input,select,textarea{
+    border:1.5px solid var(--line);
+    border-radius:8px;
+    padding:10px 13px;
+    font-size:0.93rem;
+    color:#222;
+    background:#fafbfc;
+    outline:none;
+    width:100%;
+    font-family:inherit;
+    transition:border-color 0.2s, box-shadow 0.2s;
+  }
+  textarea{resize:vertical;min-height:110px;}
+  input:focus,select:focus,textarea:focus{
+    border-color:var(--cyan);
+    box-shadow:0 0 0 3px rgba(23,182,232,0.14);
+    background:#fff;
+  }
+  input::placeholder,textarea::placeholder{color:#aaa;}
 
-    /* ── Checkbox row ── */
-    .checkbox-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-    .checkbox-row input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
-      accent-color: #e63946;
-      cursor: pointer;
-      flex-shrink: 0;
-    }
-    .checkbox-row label {
-      font-size: 0.88rem;
-      font-weight: 500;
-      color: #444;
-      cursor: pointer;
-      margin: 0;
-    }
+  .submit-wrap{margin-top:30px;text-align:center;}
+  .submit-btn{
+    background:var(--navy);
+    color:#fff;border:none;border-radius:10px;padding:14px 44px;
+    font-size:1rem;font-weight:700;cursor:pointer;letter-spacing:0.3px;
+    transition:background 0.2s, transform 0.1s;
+    font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;
+  }
+  .submit-btn:hover{background:var(--navy-deep);}
+  .submit-btn:active{transform:scale(0.98);}
+  .submit-btn:disabled{opacity:0.6;cursor:default;}
+  .referral-btn{background:var(--gold);color:var(--navy-deep);}
+  .referral-btn:hover{background:#c98a1d;}
 
-    /* ── Hidden billing section ── */
-    #billing-section { display: none; }
-    #billing-section.visible { display: block; }
+  .note{font-size:0.78rem;color:#888;margin-top:12px;}
 
-    /* ── Vehicle block ── */
-    .vehicle-block {
-      background: #f8f9fb;
-      border: 1.5px solid #e8eaed;
-      border-radius: 10px;
-      padding: 18px 20px;
-      margin-bottom: 12px;
-      position: relative;
-    }
-    .vehicle-block .remove-btn {
-      position: absolute;
-      top: 12px;
-      right: 14px;
-      background: none;
-      border: none;
-      color: #aaa;
-      font-size: 1.1rem;
-      cursor: pointer;
-      line-height: 1;
-      padding: 2px 6px;
-      border-radius: 4px;
-      transition: color 0.2s, background 0.2s;
-    }
-    .vehicle-block .remove-btn:hover { color: #e63946; background: #fdecea; }
+  /* ── Referral banner ── */
+  .referral-banner{
+    background:linear-gradient(120deg, var(--navy) 0%, var(--navy-deep) 100%);
+    border-radius:12px;
+    padding:20px 24px;
+    margin-bottom:26px;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    gap:16px;
+  }
+  .referral-banner .badge{
+    background:var(--gold);
+    color:var(--navy-deep);
+    font-family:'Barlow Condensed',sans-serif;
+    font-weight:700;
+    font-size:0.78rem;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    padding:6px 12px;
+    border-radius:20px;
+    white-space:nowrap;
+  }
+  .referral-banner p{font-size:0.88rem;color:#dbe6ec;line-height:1.4;}
 
-    .add-vehicle-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: none;
-      border: 1.5px dashed #c0c5cc;
-      color: #555;
-      border-radius: 8px;
-      padding: 9px 18px;
-      font-size: 0.88rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: border-color 0.2s, color 0.2s;
-      margin-top: 4px;
-    }
-    .add-vehicle-btn:hover { border-color: #e63946; color: #e63946; }
+  /* ── Success overlay ── */
+  #success-overlay{
+    display:none;
+    position:fixed;inset:0;
+    background:rgba(10,30,44,0.55);
+    align-items:center;justify-content:center;
+    z-index:50;
+    padding:20px;
+  }
+  #success-overlay.visible{display:flex;}
+  .success-card{
+    background:#fff;border-radius:16px;padding:44px 40px;text-align:center;
+    max-width:380px;box-shadow:0 20px 60px rgba(0,0,0,0.25);
+    animation:pop 0.3s cubic-bezier(.2,1.4,.4,1);
+  }
+  @keyframes pop{from{transform:scale(0.9);opacity:0;}to{transform:scale(1);opacity:1;}}
+  .check-wrap{
+    width:64px;height:64px;border-radius:50%;background:var(--ok);
+    display:flex;align-items:center;justify-content:center;margin:0 auto 18px;
+  }
+  .check-wrap svg{width:30px;height:30px;}
+  .success-card h3{font-family:'Barlow Condensed',sans-serif;font-size:1.4rem;color:var(--navy);margin-bottom:8px;}
+  .success-card p{color:var(--steel);font-size:0.92rem;margin-bottom:22px;}
+  .success-close{
+    background:var(--navy);color:#fff;border:none;border-radius:8px;
+    padding:10px 26px;font-weight:600;cursor:pointer;font-family:'Barlow Condensed',sans-serif;
+    text-transform:uppercase;letter-spacing:0.4px;
+  }
+  .success-close:hover{background:var(--navy-deep);}
 
-    /* ── Submit ── */
-    .submit-wrap { margin-top: 32px; text-align: center; }
-    .submit-btn {
-      background: #e63946;
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      padding: 14px 48px;
-      font-size: 1rem;
-      font-weight: 700;
-      cursor: pointer;
-      letter-spacing: 0.3px;
-      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
-      box-shadow: 0 4px 14px rgba(230,57,70,0.30);
-    }
-    .submit-btn:hover { background: #c1121f; box-shadow: 0 6px 18px rgba(230,57,70,0.38); }
-    .submit-btn:active { transform: scale(0.98); }
-
-    .note {
-      font-size: 0.78rem;
-      color: #888;
-      margin-top: 12px;
-    }
-
-    /* ── Success banner ── */
-    #success-msg {
-      display: none;
-      background: #d4edda;
-      border: 1.5px solid #28a745;
-      color: #155724;
-      border-radius: 10px;
-      padding: 18px 24px;
-      text-align: center;
-      font-weight: 600;
-      margin-top: 24px;
-      font-size: 0.95rem;
-    }
-
-    /* ── Responsive ── */
-    @media (max-width: 560px) {
-      .card { padding: 28px 20px; }
-      .row.col-2 { grid-template-columns: 1fr; }
-    }
-  </style>
+  @media (max-width:560px){
+    .card{padding:26px 20px;}
+    .row.col-2{grid-template-columns:1fr;}
+    .referral-banner{flex-direction:column;align-items:flex-start;}
+  }
+</style>
 </head>
 <body>
 
-  <div class="header">
-    <div class="logo"><img src="fleetwolf-wordmark.png?v=2" alt="FleetWolf" /></div>
-    <p>New Client Sign-Up — Please fill out all required fields below.</p>
+  <div class="topbar">
+    <img src="fleetwolf-wordmark.png?v=2" alt="FleetWolf" />
+    <p>Client Forms</p>
   </div>
 
-  <div class="card">
-    <form id="signup-form" action="https://formspree.io/f/xbdnwnln" method="POST">
+  <nav class="tabs" id="tabs">
+    <button class="tab active" data-tab="order">New Product Info / Order</button>
+    <button class="tab" data-tab="support">Support &amp; Questions</button>
+    <button class="tab" data-tab="training">Schedule Training</button>
+    <button class="tab" data-tab="referral">Referral Promo</button>
+    <div class="tab-indicator" id="tab-indicator"></div>
+  </nav>
 
-      <!-- ── Contact Info ── -->
-      <div class="section-title">Contact Information</div>
+  <main>
 
-      <div class="row col-2">
-        <div class="field">
-          <label for="first_name">First Name <span class="req">*</span></label>
-          <input type="text" id="first_name" name="first_name" placeholder="John" required />
-        </div>
-        <div class="field">
-          <label for="last_name">Last Name <span class="req">*</span></label>
-          <input type="text" id="last_name" name="last_name" placeholder="Smith" required />
-        </div>
-      </div>
+    <!-- ══════════ NEW PRODUCT INFO / ORDER ══════════ -->
+    <section class="panel active" id="panel-order">
+      <div class="card">
+        <div class="panel-title">New Product Info / Order</div>
+        <div class="panel-sub">Tell us what you're looking to order or learn more about.</div>
 
-      <div class="row col-2">
-        <div class="field">
-          <label for="email">Email Address <span class="req">*</span></label>
-          <input type="email" id="email" name="email" placeholder="john@example.com" required />
-        </div>
-        <div class="field">
-          <label for="phone">Phone Number <span class="req">*</span></label>
-          <input type="tel" id="phone" name="phone" placeholder="(555) 000-0000" required />
-        </div>
-      </div>
+        <form class="app-form" data-form="order" action="https://formspree.io/f/xbdnwnln" method="POST">
+          <input type="hidden" name="_subject" value="FleetWolf New Product Info / Order" />
+          <input type="hidden" name="form_type" value="New Product Info / Order" />
 
-      <div class="row col-1">
-        <div class="field">
-          <label for="dot">DOT # <span class="req">*</span></label>
-          <input type="text" id="dot" name="dot_number" placeholder="e.g. 1234567" required />
-        </div>
-      </div>
-
-      <!-- ── Shipping Address ── -->
-      <div class="section-title">Shipping Address</div>
-
-      <div class="row col-1">
-        <div class="field">
-          <label for="ship_street">Street Address <span class="req">*</span></label>
-          <input type="text" id="ship_street" name="shipping_street" placeholder="123 Main St" required />
-        </div>
-      </div>
-      <div class="row col-2">
-        <div class="field">
-          <label for="ship_city">City <span class="req">*</span></label>
-          <input type="text" id="ship_city" name="shipping_city" placeholder="Dallas" required />
-        </div>
-        <div class="field">
-          <label for="ship_state">State <span class="req">*</span></label>
-          <input type="text" id="ship_state" name="shipping_state" placeholder="TX" maxlength="2" required />
-        </div>
-      </div>
-      <div class="row col-1">
-        <div class="field">
-          <label for="ship_zip">ZIP Code <span class="req">*</span></label>
-          <input type="text" id="ship_zip" name="shipping_zip" placeholder="75001" maxlength="10" required />
-        </div>
-      </div>
-
-      <!-- ── Billing Address ── -->
-      <div class="section-title">Billing Address</div>
-
-      <div class="checkbox-row">
-        <input type="checkbox" id="same_address" name="billing_same" value="Yes" checked
-               onchange="toggleBilling(this)" />
-        <label for="same_address">Billing address is the same as shipping</label>
-      </div>
-
-      <div id="billing-section">
-        <div class="row col-1">
-          <div class="field">
-            <label for="bill_street">Street Address</label>
-            <input type="text" id="bill_street" name="billing_street" placeholder="456 Commerce Blvd" />
+          <div class="row col-1">
+            <div class="field">
+              <label for="order_name">Customer Name <span class="req">*</span></label>
+              <input type="text" id="order_name" name="customer_name" placeholder="John Smith" required />
+            </div>
           </div>
-        </div>
-        <div class="row col-2">
-          <div class="field">
-            <label for="bill_city">City</label>
-            <input type="text" id="bill_city" name="billing_city" placeholder="Houston" />
+          <div class="row col-1">
+            <div class="field">
+              <label for="order_details">Order / Product Details <span class="req">*</span></label>
+              <textarea id="order_details" name="order_details" placeholder="Describe what you're looking for — product, quantity, delivery info, etc." required></textarea>
+            </div>
           </div>
-          <div class="field">
-            <label for="bill_state">State</label>
-            <input type="text" id="bill_state" name="billing_state" placeholder="TX" maxlength="2" />
+
+          <div class="submit-wrap">
+            <button type="submit" class="submit-btn">Submit →</button>
+            <p class="note">* Required fields</p>
           </div>
-        </div>
-        <div class="row col-1">
-          <div class="field">
-            <label for="bill_zip">ZIP Code</label>
-            <input type="text" id="bill_zip" name="billing_zip" placeholder="77001" maxlength="10" />
-          </div>
-        </div>
+        </form>
       </div>
+    </section>
 
-      <!-- ── Vehicles ── -->
-      <div class="section-title">Vehicle Information</div>
-      <div id="vehicles-container"></div>
-      <button type="button" class="add-vehicle-btn" onclick="addVehicle()">
-        ＋ Add Vehicle
-      </button>
+    <!-- ══════════ SUPPORT & QUESTIONS ══════════ -->
+    <section class="panel" id="panel-support">
+      <div class="card">
+        <div class="panel-title">Support &amp; Questions</div>
+        <div class="panel-sub">Send us a question and we'll get back to you.</div>
 
-      <!-- Hidden field to collect all vehicle data as JSON -->
-      <input type="hidden" id="vehicles_data" name="vehicles" />
+        <form class="app-form" data-form="support" action="https://formspree.io/f/xbdnwnln" method="POST">
+          <input type="hidden" name="_subject" value="FleetWolf Support Request" />
+          <input type="hidden" name="form_type" value="Support & Questions" />
 
-      <!-- ── Submit ── -->
-      <div class="submit-wrap">
-        <button type="submit" class="submit-btn">Submit Sign-Up →</button>
-        <p class="note">* Required fields &nbsp;|&nbsp; Your information is kept secure and confidential.</p>
+          <div class="row col-2">
+            <div class="field">
+              <label for="support_name">Name <span class="req">*</span></label>
+              <input type="text" id="support_name" name="name" placeholder="John Smith" required />
+            </div>
+            <div class="field">
+              <label for="support_email">Email <span class="req">*</span></label>
+              <input type="email" id="support_email" name="email" placeholder="john@example.com" required />
+            </div>
+          </div>
+          <div class="row col-1">
+            <div class="field">
+              <label for="support_subject">Subject <span class="req">*</span></label>
+              <input type="text" id="support_subject" name="subject" placeholder="What's this about?" required />
+            </div>
+          </div>
+          <div class="row col-1">
+            <div class="field">
+              <label for="support_message">Message <span class="req">*</span></label>
+              <textarea id="support_message" name="message" placeholder="Tell us what's going on." required></textarea>
+            </div>
+          </div>
+
+          <div class="submit-wrap">
+            <button type="submit" class="submit-btn">Send Message →</button>
+            <p class="note">* Required fields</p>
+          </div>
+        </form>
       </div>
+    </section>
 
-    </form>
+    <!-- ══════════ SCHEDULE TRAINING ══════════ -->
+    <section class="panel" id="panel-training">
+      <div class="card">
+        <div class="panel-title">Schedule Training</div>
+        <div class="panel-sub">Request training on any part of your Geotab setup.</div>
 
-    <div id="success-msg">
-      ✅ Thank you! Your information has been submitted successfully.<br/>
-      A FleetWolf team member will be in touch with you shortly.
+        <form class="app-form" data-form="training" action="https://formspree.io/f/xbdnwnln" method="POST">
+          <input type="hidden" name="_subject" value="FleetWolf Training Request" />
+          <input type="hidden" name="form_type" value="Schedule Training" />
+
+          <div class="row col-2">
+            <div class="field">
+              <label for="training_name">Name <span class="req">*</span></label>
+              <input type="text" id="training_name" name="name" placeholder="John Smith" required />
+            </div>
+            <div class="field">
+              <label for="training_email">Email <span class="req">*</span></label>
+              <input type="email" id="training_email" name="email" placeholder="john@example.com" required />
+            </div>
+          </div>
+          <div class="row col-1">
+            <div class="field">
+              <label for="training_subject">Subject <span class="req">*</span></label>
+              <input type="text" id="training_subject" name="subject" placeholder="e.g. Route planning, driver scorecards" required />
+            </div>
+          </div>
+          <div class="row col-1">
+            <div class="field">
+              <label for="training_message">Message <span class="req">*</span></label>
+              <textarea id="training_message" name="message" placeholder="What would you like training on, and when works best?" required></textarea>
+            </div>
+          </div>
+
+          <div class="submit-wrap">
+            <button type="submit" class="submit-btn">Request Training →</button>
+            <p class="note">* Required fields</p>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ══════════ REFERRAL PROMO ══════════ -->
+    <section class="panel" id="panel-referral">
+      <div class="card">
+        <div class="panel-title">Referral Promo</div>
+        <div class="panel-sub">Refer a customer and earn credit toward your units.</div>
+
+        <div class="referral-banner">
+          <span class="badge">Earn Credit</span>
+          <p>For every device your referral signs up for, you get a credit toward your own units — the amount depends on the product and quantity they choose. Fill out the details below and we'll take it from there.</p>
+        </div>
+
+        <form class="app-form" data-form="referral" action="https://formspree.io/f/xbdnwnln" method="POST">
+          <input type="hidden" name="_subject" value="FleetWolf Referral Promo Submission" />
+          <input type="hidden" name="form_type" value="Referral Promo" />
+
+          <div class="section-title">Your Information</div>
+          <div class="row col-2">
+            <div class="field">
+              <label for="ref_your_name">Your Name <span class="req">*</span></label>
+              <input type="text" id="ref_your_name" name="referrer_name" placeholder="John Smith" required />
+            </div>
+            <div class="field">
+              <label for="ref_your_company">Your Company <span class="req">*</span></label>
+              <input type="text" id="ref_your_company" name="referrer_company" placeholder="Smith Trucking LLC" required />
+            </div>
+          </div>
+          <div class="row col-2">
+            <div class="field">
+              <label for="ref_your_email">Your Email <span class="req">*</span></label>
+              <input type="email" id="ref_your_email" name="referrer_email" placeholder="john@example.com" required />
+            </div>
+            <div class="field">
+              <label for="ref_your_phone">Your Phone</label>
+              <input type="tel" id="ref_your_phone" name="referrer_phone" placeholder="(555) 000-0000" />
+            </div>
+          </div>
+
+          <div class="section-title">Referral Information</div>
+          <div class="row col-2">
+            <div class="field">
+              <label for="ref_company">Referral Company Name <span class="req">*</span></label>
+              <input type="text" id="ref_company" name="referral_company" placeholder="Company being referred" required />
+            </div>
+            <div class="field">
+              <label for="ref_contact">Referral Contact Name <span class="req">*</span></label>
+              <input type="text" id="ref_contact" name="referral_contact_name" placeholder="Contact at that company" required />
+            </div>
+          </div>
+          <div class="row col-2">
+            <div class="field">
+              <label for="ref_contact_email">Referral Contact Email</label>
+              <input type="email" id="ref_contact_email" name="referral_contact_email" placeholder="contact@example.com" />
+            </div>
+            <div class="field">
+              <label for="ref_contact_phone">Referral Contact Phone <span class="req">*</span></label>
+              <input type="tel" id="ref_contact_phone" name="referral_contact_phone" placeholder="(555) 000-0000" required />
+            </div>
+          </div>
+          <div class="row col-2">
+            <div class="field">
+              <label for="ref_units">Estimated # of Units/Devices</label>
+              <input type="text" id="ref_units" name="referral_estimated_units" placeholder="e.g. 12" />
+            </div>
+            <div class="field">
+              <label for="ref_product">Product They're Interested In</label>
+              <input type="text" id="ref_product" name="referral_product_interest" placeholder="e.g. GO9, Dash Cam" />
+            </div>
+          </div>
+          <div class="row col-1">
+            <div class="field">
+              <label for="ref_notes">Additional Notes</label>
+              <textarea id="ref_notes" name="referral_notes" placeholder="Anything else we should know?"></textarea>
+            </div>
+          </div>
+
+          <div class="submit-wrap">
+            <button type="submit" class="submit-btn referral-btn">Submit Referral →</button>
+            <p class="note">* Required fields</p>
+          </div>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ══════════ SUCCESS OVERLAY ══════════ -->
+  <div id="success-overlay">
+    <div class="success-card">
+      <div class="check-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+      <h3>Submitted</h3>
+      <p>Someone from FleetWolf will follow up shortly.</p>
+      <button class="success-close" onclick="closeSuccess()">Done</button>
     </div>
   </div>
 
   <script>
-    // ── Vehicle counter ──
-    let vehicleCount = 0;
+    /* ── Tab switching ── */
+    const tabs = document.querySelectorAll('.tab');
+    const panels = document.querySelectorAll('.panel');
+    const indicator = document.getElementById('tab-indicator');
 
-    function addVehicle() {
-      vehicleCount++;
-      const container = document.getElementById('vehicles-container');
-      const block = document.createElement('div');
-      block.className = 'vehicle-block';
-      block.id = `vehicle-${vehicleCount}`;
-      block.innerHTML = `
-        <button type="button" class="remove-btn" onclick="removeVehicle(${vehicleCount})" title="Remove vehicle">✕</button>
-        <div class="row col-2" style="margin-bottom:0">
-          <div class="field">
-            <label>Year</label>
-            <input type="text" name="vehicle_${vehicleCount}_year" placeholder="2022" maxlength="4" />
-          </div>
-          <div class="field">
-            <label>Make</label>
-            <input type="text" name="vehicle_${vehicleCount}_make" placeholder="Freightliner" />
-          </div>
-        </div>
-        <div class="row col-1" style="margin-top:12px;margin-bottom:0">
-          <div class="field">
-            <label>Model</label>
-            <input type="text" name="vehicle_${vehicleCount}_model" placeholder="Cascadia" />
-          </div>
-        </div>
-      `;
-      container.appendChild(block);
+    function moveIndicator(tabEl){
+      indicator.style.left = tabEl.offsetLeft + 'px';
+      indicator.style.width = tabEl.offsetWidth + 'px';
     }
 
-    function removeVehicle(id) {
-      const el = document.getElementById(`vehicle-${id}`);
-      if (el) el.remove();
-    }
-
-    // ── Toggle billing address ──
-    function toggleBilling(checkbox) {
-      const section = document.getElementById('billing-section');
-      if (checkbox.checked) {
-        section.classList.remove('visible');
-      } else {
-        section.classList.add('visible');
-      }
-    }
-
-    // ── Phone number auto-format ──
-    document.getElementById('phone').addEventListener('input', function(e) {
-      let v = e.target.value.replace(/\D/g, '').substring(0, 10);
-      if (v.length >= 6) {
-        v = `(${v.substring(0,3)}) ${v.substring(3,6)}-${v.substring(6)}`;
-      } else if (v.length >= 3) {
-        v = `(${v.substring(0,3)}) ${v.substring(3)}`;
-      }
-      e.target.value = v;
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+        moveIndicator(tab);
+      });
     });
+    window.addEventListener('load', () => moveIndicator(document.querySelector('.tab.active')));
+    window.addEventListener('resize', () => moveIndicator(document.querySelector('.tab.active')));
 
-    // ── Form submission ──
-    const form = document.getElementById('signup-form');
-    form.addEventListener('submit', async function(e) {
-      e.preventDefault();
+    /* ── Success overlay ── */
+    function showSuccess(){ document.getElementById('success-overlay').classList.add('visible'); }
+    function closeSuccess(){ document.getElementById('success-overlay').classList.remove('visible'); }
 
-      if (form.action.includes('YOUR_FORM_ID')) {
-        alert('Setup needed: replace YOUR_FORM_ID in the form action with your real Formspree form ID before this form can send email.');
-        return;
-      }
+    /* ── Shared submit handling for all forms ── */
+    document.querySelectorAll('.app-form').forEach(form => {
+      form.addEventListener('submit', async function(e){
+        e.preventDefault();
 
-      // Collect vehicle data into hidden field
-      const vehicleBlocks = document.querySelectorAll('.vehicle-block');
-      const vehicles = [];
-      vehicleBlocks.forEach((block, i) => {
-        const inputs = block.querySelectorAll('input');
-        const v = {};
-        inputs.forEach(inp => {
-          const key = inp.name.replace(/vehicle_\d+_/, '');
-          v[key] = inp.value;
-        });
-        if (v.year || v.make || v.model) {
-          vehicles.push(`Vehicle ${i+1}: ${v.year || '—'} ${v.make || '—'} ${v.model || '—'}`);
+        const data = new FormData(form);
+        const btn = form.querySelector('.submit-btn');
+        const originalText = btn.textContent;
+        btn.textContent = 'Sending…';
+        btn.disabled = true;
+
+        try{
+          const res = await fetch(form.action, {
+            method:'POST',
+            body:data,
+            headers:{'Accept':'application/json'}
+          });
+          if(res.ok){
+            form.reset();
+            showSuccess();
+          } else {
+            alert('Something went wrong. Please try again or contact us directly.');
+          }
+        } catch(err){
+          alert('Network error. Please check your connection and try again.');
+        } finally {
+          btn.textContent = originalText;
+          btn.disabled = false;
         }
       });
-      document.getElementById('vehicles_data').value = vehicles.join(' | ') || 'None provided';
-
-      const data = new FormData(form);
-      const btn = form.querySelector('.submit-btn');
-      btn.textContent = 'Sending…';
-      btn.disabled = true;
-
-      try {
-        const res = await fetch(form.action, {
-          method: 'POST',
-          body: data,
-          headers: { 'Accept': 'application/json' }
-        });
-
-        if (res.ok) {
-          form.style.display = 'none';
-          document.getElementById('success-msg').style.display = 'block';
-        } else {
-          btn.textContent = 'Submit Sign-Up →';
-          btn.disabled = false;
-          alert('Something went wrong. Please try again or contact us directly.');
-        }
-      } catch (err) {
-        btn.textContent = 'Submit Sign-Up →';
-        btn.disabled = false;
-        alert('Network error. Please check your connection and try again.');
-      }
     });
-
-    // Add one vehicle block by default
-    addVehicle();
   </script>
 </body>
 </html>
